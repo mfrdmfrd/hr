@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<record id="hr_contrac_form_inherit_bstt" model="ir.ui.view">
+            <field name="name">hr.contract.form.inherit.bstt</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name = 'salary_info']" position="after">
+                    <group>
+                        <group name="Sale" string="Sale">
+                            <field name="commission_wage"/>
+                            <field name="commission_wage_manu"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        <record id="bonus_request_form" model="ir.ui.view">
+            <field name="name">bonus.request.form</field>
+            <field name="model">bonus.request</field>
+            <field name="arch" type="xml">
+                <form string="Bonus Request">
+                    <header>
+                        <button name="approve" string="Approve" class="oe_highlight" states="draft"
+                                type="object"/>
+                        <button name="reject" string="Reject" type="object" states="draft"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Request Name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group name = 'emp_data'>
+                                <field name="employee_id"/>
+                                <field name="contract_id"/>
+                                <field name="day_value" invisible="1"/>
+
+                                <field name="request_date"/>
+                                <field name="det_type" invisible = '1'/>
+
+                            </group>
+                            <group>
+
+                                <field name="bonus_type" attrs = "{'invisible' : [('det_type','in',['sale','manu'])]}" />
+                                <field name="bonus_amount_amount"
+                                       attrs="{'invisible': ['|',('bonus_type', '!=', 'amount'),('det_type','in',['sale','manu'])]}" groups="hr.group_hr_user"/>
+                                <field name="bonus_amount_days" attrs="{'invisible': ['|',('bonus_type', '!=', 'days'),('det_type','in',['sale','manu'])]}"/>
+                                <field name="sale_percentage" attrs = "{'invisible' : [('det_type','not in',['sale','manu'])]}" widget = "percentage"/>
+                                <field name="min" attrs = "{'invisible' : [('det_type','!=','ocs')]}" />
+                                <field name="max" attrs = "{'invisible' : [('det_type','!=','ocs')]}" />
+                                <field name="bonus_amount"/>
+                                <field name="reason"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="bonus_request_tree" model="ir.ui.view">
+            <field name="name">bonus.request.tree</field>
+            <field name="model">bonus.request</field>
+            <field name="arch" type="xml">
+                <tree string="Bonus Request">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="request_date"/>
+                    <field name="bonus_amount"/>
+                    <field name="state"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="bonus_request_action" model="ir.actions.act_window">
+            <field name="name">Bonus Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bonus.request</field>
+            <field name="view_mode">tree,form</field>
+           <field name="domain">[('det_type','=','default')]</field>
+           <field name="context">{'default_det_type' : 'default'}</field>
+
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                    Create your First Bonus Request !
+                </p>
+            </field>
+        </record>
+        <record id="bonus_request_action_s" model="ir.actions.act_window">
+            <field name="name">حافز المبيعات</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bonus.request</field>
+            <field name="view_mode">tree,form</field>
+           <field name="domain">[('det_type','=','sale')]</field>
+           <field name="context">{'default_det_type' : 'sale'}</field>
+
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                    Create your First Bonus Request !
+                </p>
+            </field>
+        </record>
+
+            <record id="bonus_request_action_p" model="ir.actions.act_window">
+            <field name="name">حافز تحصيل</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bonus.request</field>
+            <field name="view_mode">tree,form</field>
+           <field name="domain">[('det_type','=','pay')]</field>
+           <field name="context">{'default_det_type' : 'pay'}</field>
+
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                    Create your First Bonus Request !
+                </p>
+            </field>
+        </record>
+        <record id="bonus_request_action_m" model="ir.actions.act_window">
+            <field name="name">حافز انتاج </field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bonus.request</field>
+            <field name="view_mode">tree,form</field>
+           <field name="domain">[('det_type','=','manu')]</field>
+           <field name="context">{'default_det_type' : 'manu'}</field>
+
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                    Create your First Bonus Request !
+                </p>
+            </field>
+        </record>
+        <record id="bonus_request_action_o" model="ir.actions.act_window">
+            <field name="name">منح و مناسبات</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bonus.request</field>
+            <field name="view_mode">tree,form</field>
+           <field name="domain">[('det_type','=','ocs')]</field>
+           <field name="context">{'default_det_type' : 'ocs'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                    Create your First Bonus Request !
+                </p>
+            </field>
+        </record>
+        <record id="bonus_request_action_tv" model="ir.actions.act_window">
+            <field name="name">بدل سفر</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bonus.request</field>
+            <field name="view_mode">tree,form</field>
+           <field name="domain">[('det_type','=','trav')]</field>
+           <field name="context">{'default_det_type' : 'trav'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                    Create your First Bonus Request !
+                </p>
+            </field>
+        </record>
+        <record id="bonus_request_action_ts" model="ir.actions.act_window">
+            <field name="name">بدل موصلات</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bonus.request</field>
+            <field name="view_mode">tree,form</field>
+           <field name="domain">[('det_type','=','trans')]</field>
+           <field name="context">{'default_det_type' : 'trans'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                    Create your First Bonus Request !
+                </p>
+            </field>
+        </record>
+        <record id="bonus_request_action_ch" model="ir.actions.act_window">
+            <field name="name">بدل طبيعة متغير</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bonus.request</field>
+            <field name="view_mode">tree,form</field>
+           <field name="domain">[('det_type','=','change')]</field>
+           <field name="context">{'default_det_type' : 'change'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                    Create your First Bonus Request !
+                </p>
+            </field>
+        </record>
+        <record id="bonus_request_action_cr" model="ir.actions.act_window">
+            <field name="name">بدل سيارة</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bonus.request</field>
+            <field name="view_mode">tree,form</field>
+           <field name="domain">[('det_type','=','car')]</field>
+           <field name="context">{'default_det_type' : 'car'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                    Create your First Bonus Request !
+                </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="bonus_request_menu" name="Bonus Request" parent="hr.menu_hr_employee_payroll"
+                  action="bonus_request_action" sequence="8"/>
+        <menuitem id="bonus_request_menu_s" name="حافز المبيعات" parent="hr.menu_hr_employee_payroll"
+                  action="bonus_request_action_s" sequence="8"/>
+        <menuitem id="bonus_request_menu_p" name="حافز تحصيل" parent="hr.menu_hr_employee_payroll"
+                  action="bonus_request_action_p" sequence="8"/>
+        <menuitem id="bonus_request_menu_m" name="حافز انتاج" parent="hr.menu_hr_employee_payroll"
+                  action="bonus_request_action_m" sequence="8"/>
+        <menuitem id="bonus_request_menu_o" name="منح و مناسبات" parent="hr.menu_hr_employee_payroll"
+                  action="bonus_request_action_o" sequence="8"/>
+        
+        <menuitem id="bonus_request_menu_tv" name="بدل سفر" parent="hr.menu_hr_employee_payroll"
+                  action="bonus_request_action_tv" sequence="8"/>
+        <menuitem id="bonus_request_menu_ts" name="بدل موصلات" parent="hr.menu_hr_employee_payroll"
+                  action="bonus_request_action_ts" sequence="8"/>
+        <menuitem id="bonus_request_menu_ch" name="بدل طبيعة متغير" parent="hr.menu_hr_employee_payroll"
+                  action="bonus_request_action_ch" sequence="8"/>
+        <menuitem id="bonus_request_menu_cr" name="بدل سيارة" parent="hr.menu_hr_employee_payroll"
+                  action="bonus_request_action_cr" sequence="8"/>
+
+
+    </data>
+</odoo>

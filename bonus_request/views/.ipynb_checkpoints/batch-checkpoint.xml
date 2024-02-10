@@ -1,0 +1,82 @@
+<odoo>
+    <data>
+        <record id="bonus_request_batch_form" model="ir.ui.view">
+            <field name="name">bonus.request.batch.form</field>
+            <field name="model">bonus.request.batch</field>
+            <field name="mode">primary</field>
+            <field eval="7" name="priority"/>
+            <field name="inherit_id" ref="bonus_request.bonus_request_form"/>
+            <field name="arch" type="xml">
+                <xpath expr = "//header" position = 'inside'>
+                    <button name = 'generate_bonus_lines' string = 'Generate Bonus Lines' type = 'object' states = 'draft'/>
+                </xpath>
+                <xpath expr = "//sheet" position = 'inside'>
+                    <notebook>
+                        <page name = "bonus" string = 'Bonuses'>
+                            <field name = "bonus_recs">
+                                <tree editable = 'bottom'>
+                                    <field name = "name"/>
+                                    <field name = "employee_id"/>
+                                    <field name = "contract_id"/>
+                                    <field name = "request_date"/>
+                                    <field name="bonus_type" attrs = "{'column_invisible' : [('parent.det_type','=','sale')]}" />
+                                    <field name="bonus_amount_amount"
+                                           attrs="{'column_invisible': [('parent.det_type','=','sale')],'invisible' : [('bonus_type', '!=', 'amount')]}" groups="hr.group_hr_user"/>
+                                    <field name="bonus_amount_days" attrs="{'column_invisible': [('parent.det_type','=','sale')],'invisible' : [('bonus_type', '!=', 'days')]}"/>
+                                    <field name="sale_percentage" attrs = "{'column_invisible' : [('parent.det_type','!=','sale')]}" widget = "percentage"/>
+                                    <field name="min" attrs = "{'column_invisible' : [('parent.det_type','!=','ocs')]}" />
+                                    <field name="max" attrs = "{'column_invisible' : [('parent.det_type','!=','ocs')]}" />
+                                    <field name="bonus_amount"/>
+                                    <field name="reason"/>
+
+
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+                <xpath expr = "//group[@name = 'emp_data']" position = 'replace'>
+                    <group name = 'emp_data'>
+                        <field name="department_id"/>
+                        <field name="company_id"/>
+                        <field name="employee_ids" widget = 'many2many_tags'/>
+                        <field name="request_date"/>
+                        <field name="det_type" />
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="bonus_request_batch_tree" model="ir.ui.view">
+            <field name="name">bonus.request.batch.tree</field>
+            <field name="model">bonus.request.batch</field>
+            <field name="arch" type="xml">
+                <tree string="Bonus Request Batch">
+                    <field name="name"/>
+                    <field name="department_id"/>
+                    <field name="company_id"/>
+                    <field name="employee_ids" widget = 'many2many_tags'/>
+                    <field name="det_type" />
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="bonus_request_batch_action" model="ir.actions.act_window">
+            <field name="name">Bonus Request Batch</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bonus.request.batch</field>
+            <field name="view_mode">tree,form</field>
+           <field name="domain">[('det_type','=','default')]</field>
+           <field name="context">{'default_det_type' : 'default'}</field>
+
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                    Create your First Bonus Request !
+                </p>
+            </field>
+        </record>
+        <menuitem id="bonus_request_batch_menu" name="Bonus Request Batch" parent="hr.menu_hr_employee_payroll"
+                  action="bonus_request_batch_action" sequence="7"/>
+    </data>
+</odoo>
