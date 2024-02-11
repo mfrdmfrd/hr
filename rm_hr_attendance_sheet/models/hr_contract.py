@@ -31,6 +31,9 @@ class HrContract(models.Model):
                                     string='Attendance Policy')
     shifts_line_id = fields.Many2one('resource.calendar',string="Shifts")
     allowance_salary_structure_id = fields.Many2one('hr.payroll.structure')
-    
+    wage_type = fields.Selection(related='structure_type_id.wage_type', readonly=True)
+    hourly_wage = fields.Monetary('Hourly Wage', default=0, required=True, tracking=True,
+                                  help="Employee's hourly gross wage.")
+
     def get_days_in_month(self,current_date):
         return monthrange(current_date.year,current_date.month)[1]

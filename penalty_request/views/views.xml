@@ -7,12 +7,15 @@
             <field name="arch" type="xml">
                 <form string="Penalty Request">
                     <header>
-                        <button name="d_manager_confirm" string="Approve" class="oe_highlight" states="d_manager"
+                        <button name="d_manager_confirm" string="Approve" class="oe_highlight"
+                                invisible="state != 'd_manager'"
                                 type="object"/>
-                        <button name="hr_manager_confirm" string="Approve" class="oe_highlight" states="hr_manager"
+                        <button name="hr_manager_confirm" string="Approve" class="oe_highlight"
+                                invisible="state != 'hr_manager'"
                                 type="object"/>
                         
-                        <button name="reject" string="Reject" type="object" states="d_manager,hr_manager"/>
+                        <button name="reject" string="Reject" type="object"
+                                invisible="state not in ['d_manager','hr_manager']"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
@@ -31,10 +34,10 @@
                             <group>
                                 <field name="penalty_type"/>
                                 <field name="penalty_amount_amount"
-                                       attrs="{'invisible': [('penalty_type', '!=', 'amount')]}" groups="hr.group_hr_user"/>
+                                       invisible="penalty_type != 'amount'" groups="hr.group_hr_user"/>
                                 <field name="penalty_amount_days"
-                                       attrs="{'invisible': [('penalty_type', '!=', 'days')]}"/>
-                                <field name="num_lines" attrs="{'invisible': [('penalty_type', '!=', 'amount')]}"/>
+                                       invisible="penalty_type != 'days'"/>
+                                <field name="num_lines" invisible="penalty_type != 'amount'"/>
                                 <field name="reason"/>
                             </group>
                             <group>

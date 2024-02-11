@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="bonus_request.bonus_request_form"/>
             <field name="arch" type="xml">
                 <xpath expr = "//header" position = 'inside'>
-                    <button name = 'generate_bonus_lines' string = 'Generate Bonus Lines' type = 'object' states = 'draft'/>
+                    <button name = 'generate_bonus_lines' string = 'Generate Bonus Lines' type = 'object' invisible="state != 'draft'"/>
                 </xpath>
                 <xpath expr = "//sheet" position = 'inside'>
                     <notebook>
@@ -19,13 +19,13 @@
                                     <field name = "employee_id"/>
                                     <field name = "contract_id"/>
                                     <field name = "request_date"/>
-                                    <field name="bonus_type" attrs = "{'column_invisible' : [('parent.det_type','=','sale')]}" />
+                                    <field name="bonus_type" column_invisible="parent.det_type == 'sale'" />
                                     <field name="bonus_amount_amount"
-                                           attrs="{'column_invisible': [('parent.det_type','=','sale')],'invisible' : [('bonus_type', '!=', 'amount')]}" groups="hr.group_hr_user"/>
-                                    <field name="bonus_amount_days" attrs="{'column_invisible': [('parent.det_type','=','sale')],'invisible' : [('bonus_type', '!=', 'days')]}"/>
-                                    <field name="sale_percentage" attrs = "{'column_invisible' : [('parent.det_type','!=','sale')]}" widget = "percentage"/>
-                                    <field name="min" attrs = "{'column_invisible' : [('parent.det_type','!=','ocs')]}" />
-                                    <field name="max" attrs = "{'column_invisible' : [('parent.det_type','!=','ocs')]}" />
+                                           column_invisible="parent.det_type == 'sale'"  invisible="bonus_type != 'amount'" groups="hr.group_hr_user"/>
+                                    <field name="bonus_amount_days" column_invisible="parent.det_type == 'sale'"  invisible="bonus_type != 'days'"/>
+                                    <field name="sale_percentage" column_invisible="parent.det_type == 'sale'" widget = "percentage"/>
+                                    <field name="min" column_invisible="parent.det_type != 'ocs'" />
+                                    <field name="max" column_invisible="parent.det_type != 'ocs'" />
                                     <field name="bonus_amount"/>
                                     <field name="reason"/>
 

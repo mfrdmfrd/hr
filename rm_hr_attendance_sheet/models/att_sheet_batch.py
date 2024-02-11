@@ -16,7 +16,7 @@ import pytz
 from datetime import datetime, date, timedelta, time
 from dateutil.relativedelta import relativedelta
 from odoo import models, fields, tools, api, exceptions, _
-from odoo.addons.resource.models.resource import float_to_time, HOURS_PER_DAY
+# from odoo.addons.resource.models.resource import float_to_time, HOURS_PER_DAY
 from odoo.exceptions import UserError, ValidationError
 import babel
 from operator import itemgetter

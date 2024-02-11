@@ -4,15 +4,8 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from odoo import SUPERUSER_ID
 from odoo import models, fields, api, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.exceptions import RedirectWarning
 from odoo.tools import float_compare
-import odoo.addons.decimal_precision as dp
-
-
-
-
-
-
 
 class attendance_sheet_line_change(models.TransientModel):
     _name = "attendance.sheet.line.change"

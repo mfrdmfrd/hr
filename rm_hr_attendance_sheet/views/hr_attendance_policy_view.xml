@@ -12,7 +12,7 @@
                         <field name="type"/>
                         <field name="active_after" widget="float_time"/>
                         <field name="rate"/>
-                        <field name = 'line_ids' attrs = "{'invisible' : [('type','!=','weekend')]}">
+                        <field name = 'line_ids' invisible="type != 'weekend'">
                             <tree editable = 'bottom'>
                                 <field name="day" />
                                 <field name="active_after" />
@@ -55,9 +55,9 @@
                             <field name="time" widget="float_time"/>
                             <field name="type"/>
                             <field name="rate"
-                                   attrs="{'invisible':[('type','!=','rate')]}"  widget="float_time"/>
+                                   invisible="type != 'rate'"  widget="float_time"/>
                             <field name="amount"
-                                   attrs="{'invisible':[('type','!=','fix')]}"
+                                   invisible="type != 'fix'"
                                    widget="float_time"/>
                             <field name="first"/>
                             <field name="second"/>
@@ -88,9 +88,9 @@
                             <field name="time" widget="float_time"/>
                             <field name="type"/>
                             <field name="rate"
-                                   attrs="{'invisible':[('type','!=','rate')]}"/>
+                                   invisible="type != 'rate'"/>
                             <field name="amount"
-                                   attrs="{'invisible':[('type','!=','fix')]}"
+                                   invisible="type != 'fix'"
                                    widget="float_time"/>
                             <field name="first"/>
                             <field name="second"/>

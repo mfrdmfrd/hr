@@ -10,37 +10,79 @@
             </xpath>
         </field>
     </record>
-        <record id="hr_contract_form" model="ir.ui.view">
-            <field name="name">hr.contract.view</field>
-            <field name="model">hr.contract</field>
-            <field name="inherit_id" ref="hr_payroll.hr_contract_form_inherit"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='structure_type_id']" position="after">
-                    <field name="allowance_salary_structure_id" string="Allowance Salary Structure"/>
-                    <field name="att_policy_id" required="1"/>
-                    <field name="shifts_line_id" string="working Shift"/>
-                </xpath>
+
+    <record id="hr_contract_form_inherit" model="ir.ui.view">
+        <field name="name">hr.contract.view.form.inherit</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="currency_id" invisible="1"/>
             </field>
-        </record>
-        <record id="leave_form" model="ir.ui.view">
-            <field name="name">hr.leave.view</field>
-            <field name="model">hr.leave.type</field>
-            <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='company_id']" position="after">
-                    <field name="is_deduct" />
-                    <field name="is_deduct_day" />
-                    <field name="is_deduct_half_day" />                    
-                    <field name="is_mission" />
-                    <field name="is_sick" />
-                    <field name="is_deduct_leave" />
-                    <field name="is_pregnancy" />
-                    <field name="is_work_injury" />
-                    <field name="is_permission" />
-                    <field name="is_weekend_included" />
-                </xpath>
+            <field name="structure_type_id" position="attributes">
+                <attribute name="required">1</attribute>
             </field>
-        </record>
+            <xpath expr="//field[@name='structure_type_id']" position="after">
+                <field name="allowance_salary_structure_id" string="Allowance Salary Structure"/>
+                <field name="att_policy_id" required="1"/>
+                <field name="shifts_line_id" string="working Shift"/>
+            </xpath>
+            <xpath expr="//label[@for='wage']" position="before">
+                <field name="wage_type"/>
+                <label for="hourly_wage" invisible="wage_type != 'hourly'"/>
+                <div class="o_row" name="hourly_wage" invisible="wage_type != 'hourly'">
+                    <field name="hourly_wage" nolabel="1"/>
+                    <span>/ hour</span>
+                </div>
+            </xpath>
+            <xpath expr="//label[@for='wage']" position="attributes">
+                <attribute name="invisible">wage_type == 'hourly'</attribute>
+            </xpath>
+            <xpath expr="//div[@name='wage']" position="attributes">
+                <attribute name="invisible">wage_type == 'hourly'</attribute>
+            </xpath>
+<!--            <div name="button_box" position="inside">-->
+<!--                <button class="oe_stat_button" name="action_open_payslips"-->
+<!--                        type="object" icon="fa-dollar" groups="hr_payroll.group_hr_payroll_user"-->
+<!--                        attrs="{'invisible': ['|', ('payslips_count', '=', 0), ('state', '=', 'draft')]}">-->
+<!--                    <field name="payslips_count" string="Payslips" widget="statinfo"/>-->
+<!--                </button>-->
+<!--            </div>-->
+        </field>
+    </record>
+
+<!--    <record id="hr_contract_form" model="ir.ui.view">-->
+<!--        <field name="name">hr.contract.view</field>-->
+<!--        <field name="model">hr.contract</field>-->
+<!--        <field name="inherit_id" ref="hr_contract_form_inherit"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='structure_type_id']" position="after">-->
+<!--                <field name="allowance_salary_structure_id" string="Allowance Salary Structure"/>-->
+<!--                <field name="att_policy_id" required="1"/>-->
+<!--                <field name="shifts_line_id" string="working Shift"/>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="leave_form" model="ir.ui.view">
+        <field name="name">hr.leave.view</field>
+        <field name="model">hr.leave.type</field>
+        <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="is_deduct" />
+                <field name="is_deduct_day" />
+                <field name="is_deduct_half_day" />
+                <field name="is_mission" />
+                <field name="is_sick" />
+                <field name="is_deduct_leave" />
+                <field name="is_pregnancy" />
+                <field name="is_work_injury" />
+                <field name="is_permission" />
+                <field name="is_weekend_included" />
+            </xpath>
+        </field>
+    </record>
 
 </odoo>
 

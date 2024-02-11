@@ -19,8 +19,8 @@ from dateutil.relativedelta import relativedelta
 from odoo import models, fields, tools, api, exceptions, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools.misc import format_date
-from odoo.addons.resource.models.resource import float_to_time, HOURS_PER_DAY, \
-    make_aware, datetime_to_string, string_to_datetime
+# from odoo.addons.resource.models.resource import float_to_time, HOURS_PER_DAY, \
+#     make_aware, datetime_to_string, string_to_datetime
 
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 TIME_FORMAT = "%H:%M:%S"

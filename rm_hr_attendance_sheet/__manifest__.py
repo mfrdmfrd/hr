@@ -13,15 +13,21 @@
     'currency': 'EUR',
 
     'category': 'hr',
-    'version': '14.001',
+    'version': '17.0.1.0',
     'images': ['static/description/bannar.jpg'],
 
     'depends': ['base',
                 'hr',
-                'hr_payroll',
+                'hr_payroll_community',
                 'hr_holidays',
                 'bonus_request',
-                'hr_attendance', 'penalty_request','hr_custom'], #hr_custom for resg date
+                'hr_attendance',
+                'penalty_request',
+                'hr_custom',#hr_custom for resg date
+                'hr_work_entry',
+                'hr_work_entry_contract',
+
+                ],
     'data': [
         'data/ir_sequence.xml',
         'data/data.xml',

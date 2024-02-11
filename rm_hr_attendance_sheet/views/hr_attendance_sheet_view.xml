@@ -8,24 +8,23 @@
             <form string="Attendance Sheets">
                 <header>
                     <button name="get_attendances" string="Get Attendances"
-                            class="oe_highlight" states="draft"
+                            class="oe_highlight" invisible="state != 'draft'"
                             type="object"/>
 
-                    <button name="action_confirm" states="draft"
+                    <button name="action_confirm" invisible="state != 'draft'"
                             string="Submit to Manager" type="object"
                             class="oe_highlight"/>
-                    <button name="action_approve" states="confirm"
+                    <button name="action_approve" invisible="state != 'confirm'"
                             string="Approve" type="object"
                             class="oe_highlight"
                             groups="rm_hr_attendance_sheet.group_attendance_sheet_manager"/>
                     <field name = 'allowance_payslip_id' invisible = '1'/>
-                    <button name="action_payslip_allowance" states="confirm"
+                    <button name="action_payslip_allowance" invisible="(state not in ['confirm','done']) or (allowance_payslip_id != False)"
                             string="Create Allowance Payslip" type="object"
                             class="oe_highlight"
-                            attrs = "{'invisible' : ['|',('state','!=','done'),('allowance_payslip_id','!=',False)]}"
                             groups="rm_hr_attendance_sheet.group_attendance_sheet_manager"/>
 
-                    <button name="action_draft" states="confirm"
+                    <button name="action_draft" invisible="state != 'confirm'"
                             string="Set to Draft" type="object"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="draft,confirm,done"/>
@@ -34,9 +33,9 @@
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" name="action_payslip"
                                 string="PaySlip" type="object"
-                                icon="fa-book" states="done"/>
+                                icon="fa-book" invisible="state != 'done'"/>
                         <button class="oe_stat_button" name="action_payslip_allowance"
-                                attrs = "{'invisible' : [('allowance_payslip_id','=',False)]}"
+                                invisible="allowance_payslip_id == False"
                                 string="Allowance PaySlip" type="object"
                                 icon="fa-book" />
                     </div>
@@ -45,7 +44,7 @@
                         <label for="employee_id" class="oe_edit_only"/>
                         <h1>
                             <field name="employee_id" placeholder="Employee"
-                                   attrs="{'readonly':[('state','!=','draft')]}"/>
+                                   readonly="state != 'draft'"/>
                         </h1>
                     </div>
                     <group>
@@ -54,25 +53,25 @@
                         <label for="date_from" string="Period"/>
                         <div>
                             <field name="date_from" class="oe_inline"
-                                   attrs="{'readonly':[('state','!=','draft')]}"/>
+                                   readonly="state != 'draft'"/>
                             -
                             <field name="date_to" class="oe_inline"
-                                   attrs="{'readonly':[('state','!=','draft')]}"/>
+                                   readonly="state != 'draft'"/>
                         </div>
                     </group>
                     <group>
                         <field name="contract_id"/>
                         <field name="name"
-                               attrs="{'readonly':[('state','!=','draft')]}"/>
+                               readonly="state != 'draft'"/>
                         <field name="att_policy_id"
-                               attrs="{'readonly':[('state','!=','draft')]}"/>
+                               readonly="state != 'draft'"/>
                         <field name="total_worked_hours"/>
 
                     </group>
                     <notebook>
                         <page string="Attendances">
                             <field name="line_ids"
-                                   attrs="{'readonly':[('state','!=','draft')]}">
+                                   readonly="state != 'draft'">
                                 <tree create="0">
  
                                     <field name="state" invisible="1"/>
@@ -121,7 +120,7 @@
                                             class="oe_stat_button"
                                             icon="fa-edit"
                                             type="action" optional="show"
-                                            attrs="{'invisible': [('state', '!=', 'draft')]}"
+                                            readonly="state != 'draft'"
                                     />
                                 </tree>
                             </field>

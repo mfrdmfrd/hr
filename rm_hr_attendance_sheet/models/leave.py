@@ -27,7 +27,10 @@ import pytz
 from operator import itemgetter
 from odoo import api, fields, models, _
 from datetime import datetime,time
-from odoo.addons.resource.models.resource import float_to_time, HOURS_PER_DAY
+
+
+HOURS_PER_DAY = 8
+
 class ResourceCalendar(models.Model):
     _inherit = "hr.leave.type"
     

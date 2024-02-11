@@ -20,3 +20,5 @@ from . import resource
 from . import att_sheet_batch
 from . import payslip
 from . import leave
+from . import hr_payroll_strucure
+from . import hr_work_entry_type

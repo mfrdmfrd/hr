@@ -22,9 +22,9 @@
             <field name="arch" type="xml">
                 <form string="Bonus Request">
                     <header>
-                        <button name="approve" string="Approve" class="oe_highlight" states="draft"
+                        <button name="approve" string="Approve" class="oe_highlight" invisible="state != 'draft'"
                                 type="object"/>
-                        <button name="reject" string="Reject" type="object" states="draft"/>
+                        <button name="reject" string="Reject" type="object" invisible="state != 'draft'"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
@@ -45,13 +45,13 @@
                             </group>
                             <group>
 
-                                <field name="bonus_type" attrs = "{'invisible' : [('det_type','in',['sale','manu'])]}" />
+                                <field name="bonus_type" invisible="det_type in ['sale','manu']" />
                                 <field name="bonus_amount_amount"
-                                       attrs="{'invisible': ['|',('bonus_type', '!=', 'amount'),('det_type','in',['sale','manu'])]}" groups="hr.group_hr_user"/>
-                                <field name="bonus_amount_days" attrs="{'invisible': ['|',('bonus_type', '!=', 'days'),('det_type','in',['sale','manu'])]}"/>
-                                <field name="sale_percentage" attrs = "{'invisible' : [('det_type','not in',['sale','manu'])]}" widget = "percentage"/>
-                                <field name="min" attrs = "{'invisible' : [('det_type','!=','ocs')]}" />
-                                <field name="max" attrs = "{'invisible' : [('det_type','!=','ocs')]}" />
+                                       invisible="(bonus_type != 'amount') or (det_type in ['sale','manu'])" groups="hr.group_hr_user"/>
+                                <field name="bonus_amount_days" invisible="(bonus_type != 'days') or (det_type in ['sale','manu'])"/>
+                                <field name="sale_percentage" invisible="det_type not in ['sale','manu']" widget = "percentage"/>
+                                <field name="min" invisible="det_type != 'ocs'" />
+                                <field name="max" invisible="det_type != 'ocs'" />
                                 <field name="bonus_amount"/>
                                 <field name="reason"/>
                             </group>
