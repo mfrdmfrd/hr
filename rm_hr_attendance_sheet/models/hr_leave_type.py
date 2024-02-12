@@ -12,14 +12,10 @@
 ##############################################################################
 
 
-from . import hr_attendance_sheet
-from . import hr_attendance_policy
-from . import hr_holidays
-from . import hr_contract
-from . import resource
-from . import att_sheet_batch
-from . import payslip
-from . import leave
-from . import hr_payroll_strucure
-from . import hr_work_entry_type
-from . import hr_leave_type
+
+from odoo import models, fields, tools, api, exceptions, _
+
+class HrLeaveType(models.Model):
+    _inherit = 'hr.leave.type'
+
+    work_entry_type_id = fields.Many2one('hr.work.entry.type', string='Work Entry Type')
