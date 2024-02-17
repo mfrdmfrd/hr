@@ -530,13 +530,20 @@ class AttendanceSheet(models.Model):
         for att_sheet in self:
             att_sheet.line_ids.unlink()
             att_line = self.env["attendance.sheet.line"]
-            # if not att_sheet.contract_id:
-            #     raise ValidationError(
-            #         _('There Is No Valid Contract For Attendance Sheet'))
+            if not att_sheet.contract_id:
+                raise ValidationError(
+                    _('There Is No Valid Contract For Attendance Sheet'))
             from_date = max(att_sheet.date_from,att_sheet.contract_id.date_start)
             to_date = att_sheet.date_to
+            if to_date < from_date:
+                raise ValidationError(
+                    _('Period validation error, from must be before to'))
             if att_sheet.contract_id.resg_date:
                 to_date = min(to_date,att_sheet.contract_id.resg_date)
+                if to_date < from_date:
+                    raise ValidationError(
+                        _('Employee already resigned before this period'))
+
             emp = att_sheet.employee_id
             tz = pytz.timezone(emp.tz)
             if not tz:
