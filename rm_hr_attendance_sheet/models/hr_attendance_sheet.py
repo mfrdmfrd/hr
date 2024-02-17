@@ -129,9 +129,12 @@ class AttendanceSheet(models.Model):
     allowance_payslip_id = fields.Many2one(comodel_name='hr.payslip', string='PaySlip')
 
 
-    contract_id = fields.Many2one('hr.contract', string='Contract',
-                                  readonly=True,
-                                  states={'draft': [('readonly', False)]})
+    # contract_id = fields.Many2one('hr.contract', string='Contract',
+    #                               readonly=True,
+    #                               states={'draft': [('readonly', False)]})
+
+    contract_id = fields.Many2one('hr.contract', string='Contract')
+
     total_worked_hours = fields.Float(string="", required=False, compute="get_total_worked_hours")
     @api.depends('employee_id', 'date_from', 'date_to')
     def get_total_worked_hours(self):
@@ -374,27 +377,28 @@ class AttendanceSheet(models.Model):
 
     @api.onchange('employee_id', 'date_from', 'date_to')
     def onchange_employee(self):
-        if (not self.employee_id) or (not self.date_from) or (not self.date_to):
-            return
-        employee = self.employee_id
-        date_from = self.date_from
-        date_to = self.date_to
-        self.name = 'Attendance Sheet - %s - %s' % (self.employee_id.name or '',
-                                                    format_date(self.env,
-                                                                self.date_from,
-                                                                date_format="MMMM y"))
-        self.company_id = employee.company_id
-        contracts = employee._get_contracts(date_from, date_to)
-        if not contracts:
-            contracts = self.env['hr.contract'].search([('state','=','cancel'),('resg_date','>=',date_to)])
-        if not contracts:
-            raise ValidationError(
-                _('There Is No Valid Contract For Employee %s' % employee.name))
-        self.contract_id = contracts[0]
-        if not self.contract_id.att_policy_id:
-            raise ValidationError(_(
-                "Employee %s does not have attendance policy" % employee.name))
-        self.att_policy_id = self.contract_id.att_policy_id
+        for attsheet in self:
+            if (not attsheet.employee_id) or (not attsheet.date_from) or (not attsheet.date_to):
+                return
+            employee = attsheet.employee_id
+            date_from = attsheet.date_from
+            date_to = attsheet.date_to
+            attsheet.name = 'Attendance Sheet - %s - %s' % (attsheet.employee_id.name or '',
+                                                        format_date(attsheet.env,
+                                                                    attsheet.date_from,
+                                                                    date_format="MMMM y"))
+            attsheet.company_id = employee.company_id
+            contracts = employee._get_contracts(date_from, date_to)
+            if not contracts:
+                contracts = attsheet.env['hr.contract'].search([('state','=','cancel'),('resg_date','>=',date_to)])
+            if not contracts:
+                raise ValidationError(
+                    _('There Is No Valid Contract For Employee %s' % employee.name))
+            attsheet.contract_id = contracts[0]
+            if not attsheet.contract_id.att_policy_id:
+                raise ValidationError(_(
+                    "Employee %s does not have attendance policy" % employee.name))
+            attsheet.att_policy_id = attsheet.contract_id.att_policy_id
     @api.depends('line_ids.overtime', 'line_ids.diff_time', 'line_ids.late_in')
     def _compute_sheet_total(self):
         """
@@ -526,9 +530,9 @@ class AttendanceSheet(models.Model):
         for att_sheet in self:
             att_sheet.line_ids.unlink()
             att_line = self.env["attendance.sheet.line"]
-            if not att_sheet.contract_id:
-                raise ValidationError(
-                    _('There Is No Valid Contract For Attendance Sheet'))
+            # if not att_sheet.contract_id:
+            #     raise ValidationError(
+            #         _('There Is No Valid Contract For Attendance Sheet'))
             from_date = max(att_sheet.date_from,att_sheet.contract_id.date_start)
             to_date = att_sheet.date_to
             if att_sheet.contract_id.resg_date:
