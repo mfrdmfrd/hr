@@ -26,7 +26,7 @@
                 'hr_custom',#hr_custom for resg date
                 'hr_work_entry',
                 'hr_work_entry_contract',
-
+                'ohrms_loan',
                 ],
     'data': [
         'data/ir_sequence.xml',
