@@ -109,13 +109,13 @@
                         name="close_payslip_run"
                         type="object"
                         string="Close"
-                        states="draft"
+                        invisible="state not in ['draft']"
                         class="oe_highlight"
                     />
                     <button
                         name="%(action_hr_payslip_by_employees)d"
                         type="action"
-                        states="draft"
+                        invisible="state not in ['draft']"
                         string="Generate Payslips"
                         class="oe_highlight"
                     />
@@ -123,7 +123,7 @@
                         string="Set to Draft"
                         name="draft_payslip_run"
                         type="object"
-                        states="close"
+                        invisible="state not in ['close']"
                     />
                     <field name="state" widget="statusbar" />
                 </header>

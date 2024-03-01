@@ -23,3 +23,4 @@ from . import leave
 from . import hr_payroll_strucure
 from . import hr_work_entry_type
 from . import hr_leave_type
+from . import base_browsable

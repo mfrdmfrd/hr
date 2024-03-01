@@ -15,7 +15,7 @@
                         <group>
                             <field
                                 name="code"
-                                attrs="{'required': [('require_code','=',True)]}"
+                                required="require_code == True"
                             />
                             <field name="parent_id" />
                         </group>

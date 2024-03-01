@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+
+    <t t-name="hr_attendance_geofence.AttendanceGeofenceDialog" id="WebCamModal" >
+        <Dialog size="'md'" title="'Attendance Geofence'">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 geofence_dialog_container mb8" id="gmap_kisok">
+                        <i class="fa fa-1x fa-arrow-right">
+                            Map Location
+                        </i>
+                        <div class="geofence_dialog_view" style="width: 100%; height: 100%;" t-ref="mapContainer">
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <t t-set-slot="footer">
+                <button t-attf-class="btn btn-primary {{ state.okClassName }}" t-on-click="onClickConfirm" >Ok</button>
+                <button t-attf-class="btn btn-secondary" t-on-click="props.close">Cancel</button>
+            </t>
+        </Dialog>
+    </t>
+
+</template>

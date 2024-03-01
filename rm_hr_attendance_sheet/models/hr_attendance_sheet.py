@@ -363,7 +363,7 @@ class AttendanceSheet(models.Model):
     def action_confirm(self):
         self.update_all_allowance_and_deduction_fields()
         self.update_current_penalty_to_paid()
-        self.update_current_loan_to_paid()
+        # self.update_current_loan_to_paid()
         self.update_current_total_bonus_request_allowance()
 
         self.write({'state': 'confirm'})
@@ -1040,9 +1040,9 @@ class AttendanceSheet(models.Model):
         payslip_obj = self.env['hr.payslip']
         payslips = payslip_obj
         for sheet in self:
-            contracts = sheet.employee_id._get_contracts(sheet.date_from,
-                                                         sheet.date_to)
-            if not contracts:
+            # contracts = sheet.employee_id._get_contracts(sheet.date_from,
+            #                                          sheet.date_to)
+            if not self.contract_id:
                 raise ValidationError(_('There is no active contract for current employee'))
             if (sheet.payslip_id and not(is_allowance)) or (sheet.allowance_payslip_id and is_allowance) :
                 raise ValidationError(_('Payslip Has Been Created Before'))
@@ -1050,8 +1050,8 @@ class AttendanceSheet(models.Model):
                 'employee_id': sheet.employee_id.id,
                 'date_from': sheet.date_from,
                 'date_to': sheet.date_to,
-                'contract_id': contracts[0].id,
-                'struct_id': contracts[0].structure_type_id.default_struct_id.id if not(is_allowance) else contracts[0].allowance_salary_structure_id.id
+                'contract_id': self.contract_id.id,
+                'struct_id': self.contract_id.structure_type_id.default_struct_id.id if not(is_allowance) else self.contract_id.allowance_salary_structure_id.id
             })
             new_payslip._compute_contract_id()
             new_payslip._compute_name()
@@ -1110,6 +1110,7 @@ class AttendanceSheet(models.Model):
             'sequence': 110,
             'number_of_days': self.loans,
             'number_of_hours': self.loans,
+            'contract_id': self.contract_id.id,
         }]
         loan_deductions_1 = [{
             'name': "Loan1",
@@ -1118,6 +1119,8 @@ class AttendanceSheet(models.Model):
             'sequence': 111,
             'number_of_days': self.loans,
             'number_of_hours': self.loans,
+            'contract_id': self.contract_id.id,
+
         }]
         loan_deductions_1 = [{
             'name': "Loan1",
@@ -1126,6 +1129,8 @@ class AttendanceSheet(models.Model):
             'sequence': 111,
             'number_of_days': self.loans_1,
             'number_of_hours': self.loans_1,
+            'contract_id': self.contract_id.id,
+
         }]
         loan_deductions_2 = [{
             'name': "Loan2",
@@ -1134,6 +1139,7 @@ class AttendanceSheet(models.Model):
             'sequence': 112,
             'number_of_days': self.loans_2,
             'number_of_hours': self.loans_2,
+            'contract_id': self.contract_id.id,
         }]
         loan_deductions_3 = [{
             'name': "Loan3",
@@ -1142,6 +1148,7 @@ class AttendanceSheet(models.Model):
             'sequence': 113,
             'number_of_days': self.loans_3,
             'number_of_hours': self.loans_3,
+            'contract_id': self.contract_id.id,
         }]
         penalty_deductions = [{
             'name': "Employee Penalty",
@@ -1150,6 +1157,7 @@ class AttendanceSheet(models.Model):
             'sequence': 115,
             'number_of_days': 0,
             'number_of_hours': self.penalty,
+            'contract_id': self.contract_id.id,
         }]
         bonus_request_allowance = [{
             'name': "BONUS REQUEST ALLOWANCE",
@@ -1158,6 +1166,7 @@ class AttendanceSheet(models.Model):
             'sequence': 135,
             'number_of_days': 0,
             'number_of_hours': self.bonus_request,
+            'contract_id': self.contract_id.id,
         }]
         bonus_sale_request_allowance = [{
             'name': "BONUS REQUEST ALLOWANCE",
@@ -1166,6 +1175,7 @@ class AttendanceSheet(models.Model):
             'sequence': 136,
             'number_of_days': 0,
             'number_of_hours': self.bonus_request_sale,
+            'contract_id': self.contract_id.id,
         }]
         bonus_manu_request_allowance = [{
             'name': "BONUS REQUEST ALLOWANCE",
@@ -1174,6 +1184,7 @@ class AttendanceSheet(models.Model):
             'sequence': 137,
             'number_of_days': 0,
             'number_of_hours': self.bonus_request_pay,
+            'contract_id': self.contract_id.id,
         }]
         bonus_pay_request_allowance = [{
             'name': "BONUS REQUEST ALLOWANCE",
@@ -1182,6 +1193,7 @@ class AttendanceSheet(models.Model):
             'sequence': 138,
             'number_of_days': 0,
             'number_of_hours': self.bonus_request_manu,
+            'contract_id': self.contract_id.id,
         }]
         bonus_ocs_request_allowance = [{
             'name': "BONUS REQUEST ALLOWANCE",
@@ -1190,6 +1202,7 @@ class AttendanceSheet(models.Model):
             'sequence': 139,
             'number_of_days': 0,
             'number_of_hours': self.bonus_request_ocs,
+            'contract_id': self.contract_id.id,
         }]
         bonus_tv_request_allowance = [{
             'name': "BONUS REQUEST ALLOWANCE",
@@ -1198,6 +1211,7 @@ class AttendanceSheet(models.Model):
             'sequence': 141,
             'number_of_days': 0,
             'number_of_hours': self.bonus_request_tv,
+            'contract_id': self.contract_id.id,
         }]
         bonus_ts_request_allowance = [{
             'name': "BONUS REQUEST ALLOWANCE",
@@ -1206,6 +1220,7 @@ class AttendanceSheet(models.Model):
             'sequence': 143,
             'number_of_days': 0,
             'number_of_hours': self.bonus_request_ts,
+            'contract_id': self.contract_id.id,
         }]
         bonus_ch_request_allowance = [{
             'name': "BONUS REQUEST ALLOWANCE",
@@ -1214,6 +1229,7 @@ class AttendanceSheet(models.Model):
             'sequence': 145,
             'number_of_days': 0,
             'number_of_hours': self.bonus_request_ch,
+            'contract_id': self.contract_id.id,
         }]
         bonus_cr_request_allowance = [{
             'name': "BONUS REQUEST ALLOWANCE",
@@ -1222,6 +1238,7 @@ class AttendanceSheet(models.Model):
             'sequence': 147,
             'number_of_days': 0,
             'number_of_hours': self.bonus_request_cr,
+            'contract_id': self.contract_id.id,
         }]
 
 
@@ -1232,6 +1249,7 @@ class AttendanceSheet(models.Model):
             'sequence': 35,
             'number_of_days': self.no_absence,
             'number_of_hours': self.tot_absence,
+            'contract_id': self.contract_id.id,
         }]
 
         late = [{
@@ -1241,6 +1259,7 @@ class AttendanceSheet(models.Model):
             'sequence': 40,
             'number_of_days': self.no_late,
             'number_of_hours': self.tot_late,
+            'contract_id': self.contract_id.id,
         }]
         difftime = [{
             'name': "Difference time",
@@ -1249,6 +1268,7 @@ class AttendanceSheet(models.Model):
             'sequence': 45,
             'number_of_days': self.no_difftime,
             'number_of_hours': self.tot_difftime,
+            'contract_id': self.contract_id.id,
         }]
         overtime = [{
             'name': "Overtime",
@@ -1256,7 +1276,9 @@ class AttendanceSheet(models.Model):
             'work_entry_type_id': overtime_work_entry[0].id,
             'sequence': 30,
             'number_of_days': self.no_overtime,
-            'number_of_hours': self.tot_overtime,}]
+            'number_of_hours': self.tot_overtime,
+            'contract_id': self.contract_id.id,
+        }]
         leave = [{
             'name': "Leave",
             'code': 'LVE',
@@ -1264,6 +1286,7 @@ class AttendanceSheet(models.Model):
             'sequence': 35,
             'number_of_days': self.no_leave,
             'number_of_hours': self.no_leave_hours,
+            'contract_id': self.contract_id.id,
         }]
         leave_sick = [{
             'name': "Leave Sick",
@@ -1272,6 +1295,7 @@ class AttendanceSheet(models.Model):
             'sequence': 36,
             'number_of_days': self.no_leave_sick,
             'number_of_hours': self.no_leave_sick_hours,
+            'contract_id': self.contract_id.id,
         }]
         leave_deduct = [{
             'name': "Leave Deduct",
@@ -1280,6 +1304,7 @@ class AttendanceSheet(models.Model):
             'sequence': 37,
             'number_of_days': self.no_leave_deduct,
             'number_of_hours': self.no_leave_deduct_hours,
+            'contract_id': self.contract_id.id,
         }]
         leave_pregnancy = [{
             'name': "Leave Pregnancy",
@@ -1288,6 +1313,7 @@ class AttendanceSheet(models.Model):
             'sequence': 37,
             'number_of_days': self.no_leave_pregnancy,
             'number_of_hours': self.no_leave_pregnancy_hours,
+            'contract_id': self.contract_id.id,
         }]
         leave_injury = [{
             'name': "Leave Injury",
@@ -1296,6 +1322,7 @@ class AttendanceSheet(models.Model):
             'sequence': 38,
             'number_of_days': self.no_leave_work_injury,
             'number_of_hours': self.no_leave_work_injury_hours,
+            'contract_id': self.contract_id.id,
         }]
         leave_permission = [{
             'name': "Leave Permission",
@@ -1304,6 +1331,7 @@ class AttendanceSheet(models.Model):
             'sequence': 39,
             'number_of_days': self.no_leave_work_permission,
             'number_of_hours': self.no_leave_work_permission_hours,
+            'contract_id': self.contract_id.id,
         }]
         worked_days_lines =  late + absence + difftime  +  penalty_deductions + bonus_request_allowance + leave + loan_deductions + bonus_sale_request_allowance + bonus_manu_request_allowance + bonus_pay_request_allowance + bonus_ocs_request_allowance + overtime + bonus_tv_request_allowance + bonus_ts_request_allowance + bonus_ch_request_allowance + bonus_cr_request_allowance + loan_deductions_1 + loan_deductions_2 + loan_deductions_3 + leave_permission + leave_sick + leave_deduct + leave_injury + leave_pregnancy
         return worked_days_lines
