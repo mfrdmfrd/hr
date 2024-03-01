@@ -16,17 +16,17 @@ import babel
 import time
 from datetime import datetime, timedelta,date
 from calendar import monthrange
-class HrEmployeePublic(models.Model):
-    _inherit = 'hr.employee.public'
-    time_off_resource_calendar_id = fields.Many2one(
-        'resource.calendar', 'Working Hours', readonly=False)
-
-
-class HrEmployeePrivate(models.Model):
-    _inherit = 'hr.employee'
-    time_off_resource_calendar_id = fields.Many2one(
-        'resource.calendar', 'Working Hours', readonly=False)
-
+# class HrEmployeePublic(models.Model):
+#     _inherit = 'hr.employee.public'
+#     time_off_resource_calendar_id = fields.Many2one(
+#         'resource.calendar', 'Working Hours', readonly=False)
+#
+#
+# class HrEmployeePrivate(models.Model):
+#     _inherit = 'hr.employee'
+#     time_off_resource_calendar_id = fields.Many2one(
+#         'resource.calendar', 'Working Hours', readonly=False)
+#
 
 class HrContract(models.Model):
     _inherit = 'hr.contract'

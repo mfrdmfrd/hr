@@ -83,7 +83,7 @@ class HrPayslip(models.Model):
                                  copy=False, help="Choose Company for line",
                                  default=lambda self: self.env[
                                      'res.company']._company_default_get())
-    worked_days_line_ids = fields.One2many('hr.payslip.worked_days',
+    worked_days_line_ids = fields.One2many('hr.payslip.worked.days',
                                            'payslip_id',
                                            string='Payslip Worked Days',
                                            copy=True,

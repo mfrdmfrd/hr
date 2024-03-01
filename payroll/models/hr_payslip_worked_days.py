@@ -4,7 +4,7 @@ from odoo import fields, models
 
 
 class HrPayslipWorkedDays(models.Model):
-    _name = "hr.payslip.worked_days"
+    _name = "hr.payslip.worked.days"
     _description = "Payslip Worked Days"
     _order = "payslip_id, sequence"
 

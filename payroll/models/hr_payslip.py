@@ -106,7 +106,7 @@ class HrPayslip(models.Model):
         states={"draft": [("readonly", False)]},
     )
     worked_days_line_ids = fields.One2many(
-        "hr.payslip.worked_days",
+        "hr.payslip.worked.days",
         "payslip_id",
         string="Payslip Worked Days",
         copy=True,

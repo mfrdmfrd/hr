@@ -332,7 +332,7 @@ class HrPayslipCustom(models.Model):
 
 class HrPayslipWorkedDays(models.Model):
     """Create new model for adding some fields"""
-    _inherit = 'hr.payslip.worked_days'
+    _inherit = 'hr.payslip.worked.days'
     _description = 'Payslip Worked Days'
 
 
