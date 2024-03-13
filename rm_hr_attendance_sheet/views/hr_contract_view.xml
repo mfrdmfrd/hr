@@ -5,9 +5,9 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='birthday']" position="after">
-                <field name="time_off_resource_calendar_id" />
-            </xpath>
+<!--            <xpath expr="//field[@name='birthday']" position="after">-->
+<!--                <field name="time_off_resource_calendar_id" />-->
+<!--            </xpath>-->
         </field>
     </record>
 
